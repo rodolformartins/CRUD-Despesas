@@ -5,6 +5,9 @@ import java.time.LocalDate;
 public class Despesa {
     private Long id;
 
+
+
+    //Métodos getters and setters
     public Long getId() {
         return id;
     }

@@ -12,11 +12,12 @@ public class Application {
 
         Despesa despesa = new Despesa();
 
-        despesa.setDescricao("Pagamento do aluguel");
-        despesa.setCategoria(Categoria.MORADIA);
-        despesa.setValor(1200);
-        despesa.setData(LocalDate.of(2021, 5, 20));
+        despesa.setDescricao("Viagem com Uber");
+        despesa.setCategoria(Categoria.TRANSPORTE);
+        despesa.setValor(30);
+        despesa.setData(LocalDate.of(2021, 5, 15));
 
-        dao.save(despesa);
+        Despesa despesaInserida = dao.save(despesa);
+        System.out.println("Foi inserida a despesa com id: " + despesa.getId());
     }
 }

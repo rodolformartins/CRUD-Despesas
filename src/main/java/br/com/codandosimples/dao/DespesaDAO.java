@@ -1,14 +1,18 @@
 package br.com.codandosimples.dao;
 
-import br.com.codandosimples.infa.ConnectionFactory;
+//importando outras classes
+import br.com.codandosimples.infra.ConnectionFactory;
 import br.com.codandosimples.model.Categoria;
 import br.com.codandosimples.model.Despesa;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+//Importando as bibliotecas
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
+
+
+//Criando a classe de acesso ao banco de dados DAO: Data Access Object
+//Recebe a interface IDespesaDAO para implementar os métodos: save, update, delete, listar, buscar por id, buscar por categoria.
 
 public class DespesaDAO implements IDespesaDAO {
 
@@ -16,7 +20,8 @@ public class DespesaDAO implements IDespesaDAO {
     public Despesa save(Despesa despesa) {
         try (Connection connection = ConnectionFactory.getConnection()) {
             String sql = "INSERT INTO Despesa (descricao, valor, data, categoria) VALUES (?, ?, ?, ?)";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
             preparedStatement.setString(1, despesa.getDescricao());
             preparedStatement.setDouble(2, despesa.getValor());
             preparedStatement.setDate(3, java.sql.Date.valueOf(despesa.getData()));
@@ -24,6 +29,11 @@ public class DespesaDAO implements IDespesaDAO {
 
             preparedStatement.executeUpdate();
 
+            ResultSet resultset = preparedStatement.getGeneratedKeys();
+            resultset.next();
+
+            Long generatedId = resultset.getLong("id");
+            despesa.setId(generatedId);
 
         } catch (SQLException ex) {
            throw new RuntimeException(ex);

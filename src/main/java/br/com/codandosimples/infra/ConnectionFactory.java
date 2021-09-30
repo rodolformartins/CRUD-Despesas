@@ -1,4 +1,4 @@
-package br.com.codandosimples.infa;
+package br.com.codandosimples.infra;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
